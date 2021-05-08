@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<StudyGroupCollection>
+	<StudyGroup>
+		<id>1</id>
+		<name>df</name>
+		<coordinates>
+			<x>10.0</x>
+			<y>10.0</y>
+		</coordinates>
+		<creationDate>1620105210716</creationDate>
+		<studentsCount>1</studentsCount>
+		<semester>FIRST</semester>
+		<formOfEducation>DISTANCE_EDUCATION</formOfEducation>
+		<groupAdmin>
+			<nameAdmin>a</nameAdmin>
+			<weight>10.0</weight>
+			<passportID>5</passportID>
+		</groupAdmin>
+	</StudyGroup>
+</StudyGroupCollection>
