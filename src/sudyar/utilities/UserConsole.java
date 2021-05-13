@@ -11,8 +11,7 @@ import java.util.Scanner;
 public class UserConsole {
     private final StudyGroupCollection studyGroupCollection;
     private HashSet<String> pathSet = new HashSet<>();
-    private static BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
-    private static BufferedReader scriptScanner;
+    private static BufferedReader scanner /*= new BufferedReader(new InputStreamReader(System.in))*/;
     private static boolean script = false;
 
     public UserConsole(StudyGroupCollection studyGroupCollection) {
@@ -46,7 +45,7 @@ public class UserConsole {
         while (true){
             System.out.print("$");
             line = readLine();
-            String command[] = line.split(" ");
+            String command[] = line.trim().split(" ");
             String argument;
             if (command.length>1) argument = command[1];
             else argument = null;
@@ -56,7 +55,9 @@ public class UserConsole {
                     System.out.println(commands);
                 }
                 else try {
-                    if ("execute_script".equals(command[0])) scriptMode(argument, commands);
+                    if ("execute_script".equals(command[0])) {
+                        scriptMode(argument, commands, "");
+                    }
                     else commands.getCommands().get(command[0]).execute(argument);
                 } catch (IllegalArgumentException illegalArgumentException) {
                     System.out.println(illegalArgumentException.getMessage());
@@ -71,49 +72,64 @@ public class UserConsole {
     }
 
     public static void changeScanner(BufferedReader scan){
-        scanner = scan;
+        UserConsole.scanner = scan;
     }
 
 
     public static void changeScript(boolean b){
-        script = b;
+        UserConsole.script = b;
     }
 
 
-    public void scriptMode (String path, Commands commands){
+    public void scriptMode (String path, Commands commands, String lastPath){
         if (path == null) throw new IllegalArgumentException("Нет аргументов");
         if (!pathSet.contains(path)) {
             pathSet.add(path);
-            try (BufferedReader scanner = new BufferedReader(new InputStreamReader(new FileInputStream(path)) )){
-                UserConsole.changeScanner(scanner);
-                changeScript(true);
-            } catch (IOException fileNotFoundException) {
-                System.out.println("Скрипт не найден");;
-            }
-            String line;
-            while (script){
-                line = readLine();
-                if (!script) break;
-                String command[] = line.split(" ");
-                String argument;
-                if (command.length>1) argument = command[1];
-                else argument = null;
-                for (int i = 0; i < command.length; i++) command[i] = command[i].trim();
-                if (commands.getCommands().containsKey(command[0])) {
-                    if ("help".equals(command[0])) {
-                        System.out.println(commands);
-                    }
-                    else try {
-                            if ("execute_script".equals(command[0])) scriptMode(argument, commands);
-                            else commands.getCommands().get(command[0]).execute(argument);
-                    } catch (IllegalArgumentException illegalArgumentException) {
-                        System.out.println(illegalArgumentException.getMessage());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            try {
+                File file = new File(path);
+                if (!file.exists()) throw new FileNotFoundException("Файл не найден");
+                else if (!file.canRead()) throw new IOException("Не могу прочесть с файла");
+                else {
+                    BufferedReader scanner = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path))));
+                    UserConsole.changeScanner(scanner);
+                    changeScript(true);
+                    String line;
+                    while (script) {
+                        line = readLine();
+                        if (!script) break;
+                        String[] command = line.split(" ");
+                        String argument;
+                        if (command.length > 1) argument = command[1];
+                        else argument = null;
+                        for (int i = 0; i < command.length; i++) command[i] = command[i].trim();
+                        if (commands.getCommands().containsKey(command[0])) {
+                            if ("help".equals(command[0])) {
+                                System.out.println(commands);
+                            } else try {
+                                if ("execute_script".equals(command[0])) scriptMode(argument, commands, path);
+                                else commands.getCommands().get(command[0]).execute(argument);
+                            } catch (IllegalArgumentException illegalArgumentException) {
+                                System.out.println(illegalArgumentException.getMessage());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else System.out.println("Error: Нет такой команды");
                     }
                 }
+
+            } catch (IOException e){
+                System.out.println(e.getMessage());
             }
-            pathSet.remove(path);
+            try {
+                scanner.close();
+                if("".equals(lastPath)) scanner = new BufferedReader( new InputStreamReader(System.in));
+                else scanner = new BufferedReader(new InputStreamReader(new FileInputStream(lastPath)));
+                pathSet.remove(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 }
