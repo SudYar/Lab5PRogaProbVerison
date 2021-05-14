@@ -1,24 +1,17 @@
 package sudyar.utilities;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import sudyar.commands.Commands;
-import sudyar.data.StudyGroupCollection;
 
 import java.io.*;
 import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Scanner;
 
 public class UserConsole {
-    private final StudyGroupCollection studyGroupCollection;
-    private HashSet<String> pathSet = new HashSet<>();
     private static BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private static boolean script = false;
     private static ArrayDeque<String> arrayString = new ArrayDeque<>();
     private static ArrayDeque<String> pathStack = new ArrayDeque<>();
 
-    public UserConsole(StudyGroupCollection studyGroupCollection) {
-        this.studyGroupCollection = studyGroupCollection;
+    public UserConsole() {
     }
 
     public static String readLine () {
@@ -65,7 +58,7 @@ public class UserConsole {
         while (true){
             System.out.print("$");
             line = readLine();
-            String command[] = line.trim().split(" ");
+            String[] command = line.trim().split(" ");
             String argument;
             if (command.length>1) argument = command[1];
             else argument = null;
@@ -87,10 +80,6 @@ public class UserConsole {
 
         }
 
-    }
-
-    public static void changeScanner(BufferedReader scan){
-        scanner = scan;
     }
 
 
@@ -125,7 +114,7 @@ public class UserConsole {
                     System.out.print("$");
                     line = readLine();
                     if (!script) break;
-                    String command[] = line.trim().split(" ");
+                    String[] command = line.trim().split(" ");
                     String argument;
                     if (command.length > 1) argument = command[1];
                     else argument = null;

@@ -3,7 +3,6 @@ package sudyar.utilities;
 import com.sun.istack.internal.NotNull;
 import sudyar.data.*;
 import sudyar.exception.DuplicateException;
-import sudyar.exception.IncorrectLineException;
 
 import java.io.*;
 import java.util.HashMap;
@@ -11,19 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileParser {
-    HashMap<Integer, StudyGroup> hashMap = new HashMap<>();
-    private String line;
     public final String path;
     public final boolean canRead;
     public final boolean canWrite;
     private File file;
-    private final String END = "</StudyGroupCollection>";
 
-    /**
-     *
-     * @param path
-     * @throws FileNotFoundException
-     */
+
     public FileParser(@NotNull String path) throws FileNotFoundException {
         this.path = path;
         file = new File(path);
@@ -43,11 +35,7 @@ public class FileParser {
         path = null;
     }
 
-    /**
-     *
-     * @return Возвращает загруженную из файла коллекцию
-     * @throws IOException исключение ввода/вывода
-     */
+
     private StudyGroup parseGroup (BufferedReader br, int groupNumber) throws NullPointerException, DuplicateException {
         StudyGroup studyGroup = new StudyGroup();
         String line;
@@ -69,7 +57,7 @@ public class FileParser {
         teg.put("passportID", "");
         try {
             line = br.readLine();
-            while ((line != null) && (!line.contains("</StudyGroup>"))) {
+            while ((line != null) && (!("</StudyGroup>").equals(line.trim()))) {
                 matcher = pattern.matcher(line);
                 if (matcher.find()) {
                     String strTeg = matcher.group(1); //line.substring(matcher.start(1) , matcher.end(1));
@@ -95,7 +83,7 @@ public class FileParser {
         final Person groupAdmin;
 
         id = StudyGroupParser.parseId(teg.get("id"));
-        if (id == null) throw new NullPointerException("Error: В файле ошибка у " + groupNumber + " группы, id - int > 0. Группа пропущена");
+        if (id == null) throw new NullPointerException("Error: В файле ошибка у " + groupNumber + " группы, id не типа int или < 0. Группа пропущена");
         else studyGroup.setId(id);
 
         name = StudyGroupParser.parseName(teg.get("name"));
@@ -140,8 +128,9 @@ public class FileParser {
                                 new FileInputStream(file)));
 
             line = br.readLine();
+            String END = "</StudyGroupCollection>";
             while ((line != null) && (!END.equals(line))){
-                 if (line.contains("<StudyGroup>")) {
+                 if ("<StudyGroup>".equals(line.trim())) {
                      groupNumber++;
                      try{
                          StudyGroup studyGroup = parseGroup(br, groupNumber);
@@ -198,9 +187,6 @@ public class FileParser {
             else System.out.println("Пустая коллекция \"сохранена\"");
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден");
-        }
-        catch (IOException e) {
-            System.out.println("Проверьте файл");
         }
 
     }

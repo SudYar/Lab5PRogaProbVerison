@@ -13,10 +13,10 @@ import java.util.HashSet;
 public class Main {
 
     public static void main(String[] args) {
-        FileParser fileParser = null;
+        FileParser fileParser;
 
         try {
-            if (args[0] != null) {
+            if (args != null && args.length>0) {
                 fileParser = new FileParser(args[0]);
                 if (!fileParser.canRead) {
                     System.out.println("Нет прав на чтение файла, работаем с чистого листа");
@@ -30,7 +30,7 @@ public class Main {
             System.out.println("Файла нет, работаем локально");
         }
 
-        StudyGroupCollection newCollection = null;
+        StudyGroupCollection newCollection;
 
         if (fileParser.canRead) {
             newCollection = fileParser.parse();
@@ -56,7 +56,7 @@ public class Main {
         set.add(new ExitCommand());
 
         Commands commands = new Commands(set);
-        UserConsole userConsole = new UserConsole(newCollection);
+        UserConsole userConsole = new UserConsole();
         userConsole.commandMode(commands);
     }
 }

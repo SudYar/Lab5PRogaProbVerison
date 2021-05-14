@@ -25,7 +25,7 @@ public class InsertCommand extends AbstractCommand{
             name = StudyGroupParser.parseName(line.trim());
         }
         while (name == null){
-            System.out.print("Неверно введено имя, пожалуйста, введите непустую строку\n>");
+            System.out.print("Неверно введено имя, пожалуйста, введите непустую строку без разделяющих пробелов\n>");
             line = UserConsole.readLine();
             if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) {
                 name = StudyGroupParser.parseName(line.trim());
@@ -56,11 +56,11 @@ public class InsertCommand extends AbstractCommand{
         }
 
         Integer studentCount = null;
-        System.out.print("Введите колличество студентов (натуральное число)\n>");
+        System.out.print("Введите количество студентов (натуральное число)\n>");
         line = UserConsole.readLine();
         if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) studentCount = StudyGroupParser.parseStudentsCount(line.trim());
         while (studentCount == null){
-            System.out.print("Неверно введено колличество студентов, пожалуйста, введите целое значение больше 0 \n>");
+            System.out.print("Неверно введено количество студентов, пожалуйста, введите целое значение больше 0 \n>");
             line = UserConsole.readLine();
             if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) {
                 studentCount = StudyGroupParser.parseStudentsCount(line.trim());
@@ -107,11 +107,11 @@ public class InsertCommand extends AbstractCommand{
         if ("+".equals(line)) {
 
             String nameAdmin = null;
-            System.out.print("Введите имя админа группы, не может быть пустым\n>");
+            System.out.print("Введите имя админа группы, не может быть пустым и содержать пробелы\n>");
             line = UserConsole.readLine();
             if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) nameAdmin = StudyGroupParser.parseNameAdmin(line.trim());
             while (nameAdmin == null){
-                System.out.print("Неверно введено имя админа группы, оно не может быть пустым\n>");
+                System.out.print("Неверно введено имя админа группы, оно не может быть пустым и содержать пробелы\n>");
                 line = UserConsole.readLine();
                 if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) {
                     nameAdmin = StudyGroupParser.parseNameAdmin(line.trim());
@@ -131,24 +131,24 @@ public class InsertCommand extends AbstractCommand{
             }
 
             String passportId = null;
-            System.out.print("Введите passportId админа (непустая уникальная строка)\n>");
+            System.out.print("Введите passportId админа (непустая уникальная строка без пробелов)\n>");
             line = UserConsole.readLine();
             try {
                 if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) {
                     passportId = StudyGroupParser.parsePassportId(line.trim(), studyGroupCollection);
                 }
             } catch (DuplicateException e){
-                System.out.print(e.getMessage());
+                System.out.print(e.getMessage()+"\n");
             }
             while (passportId == null){
-                System.out.print("Неверно введен passportId админа (должна быть непустая уникальная строка)\n>");
+                System.out.print("Неверно введен passportId админа (должна быть непустая уникальная строка без пробелов)\n>");
                 line = UserConsole.readLine();
                 try {
                     if (!"".equals(line.trim()) && line.trim().split(" ").length < 2) {
                         passportId = StudyGroupParser.parsePassportId(line.trim(), studyGroupCollection);
                     }
                 } catch (DuplicateException e){
-                    System.out.print(e.getMessage());
+                    System.out.print(e.getMessage()+"\n");
                 }
             }
             groupAdmin = StudyGroupParser.parsePerson(nameAdmin, weigh, passportId);

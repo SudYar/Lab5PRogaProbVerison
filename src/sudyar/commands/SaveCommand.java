@@ -16,7 +16,7 @@ public class SaveCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument) {
         if (fileParser.canWrite) fileParser.unParse(studyGroupCollection);
-        else System.out.println("Нет возможности сохранить в этот файл");
+        else System.out.println("Нет возможности сохранить в файл");
         return false;
     }
 }
