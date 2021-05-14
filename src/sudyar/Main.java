@@ -16,15 +16,15 @@ public class Main {
         FileParser fileParser = null;
 
         try {
-//            if (args[0] != null) {
-                fileParser = new FileParser("./Test.xml");
+            if (args[0] != null) {
+                fileParser = new FileParser(args[0]);
                 if (!fileParser.canRead) {
                     System.out.println("Нет прав на чтение файла, работаем с чистого листа");
                 }
                 if (!fileParser.canWrite) {
                     System.out.println("Нет прав на запись в файл, нельзя будет сохранить коллекцию");
                 }
-         //   }else throw new  FileNotFoundException();
+            }else throw new  FileNotFoundException();
         } catch (FileNotFoundException e) {
             fileParser = new FileParser();
             System.out.println("Файла нет, работаем локально");

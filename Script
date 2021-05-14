@@ -1,2 +1,5 @@
-help
 show
+info
+execute_script script
+execute_script script.txt
+execute_script ./script

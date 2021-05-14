@@ -5,6 +5,7 @@ import sudyar.commands.Commands;
 import sudyar.data.StudyGroupCollection;
 
 import java.io.*;
+import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -12,30 +13,48 @@ public class UserConsole {
     private final StudyGroupCollection studyGroupCollection;
     private HashSet<String> pathSet = new HashSet<>();
     private static BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
-    private static BufferedReader scriptScanner;
     private static boolean script = false;
+    private static ArrayDeque<String> arrayString = new ArrayDeque<>();
+    private static ArrayDeque<String> pathStack = new ArrayDeque<>();
 
     public UserConsole(StudyGroupCollection studyGroupCollection) {
         this.studyGroupCollection = studyGroupCollection;
     }
 
     public static String readLine () {
-        BufferedReader bufferedReader = scanner;
-        try {
-            String line = bufferedReader.readLine();
-            if (line == null) {
-                if (script) {
-                    System.out.println("В скрипте пустая строка, вводите сами");
-                    script = false;
-                } else {
-                System.out.println("Завершение программы (без сохранения)");
-                System.exit(0);
-                }
-                return "";
+        String line;
+        if (!script) {
+            BufferedReader bufferedReader = scanner;
+            try {
+                line = bufferedReader.readLine();
+                if (line == null) {
+                    System.out.println("Завершение программы (без сохранения)");
+                    System.exit(0);
+                    return "";
+                } else return line;
+            } catch (IOException e) {
+                return "Непредвиденная ошибка: " + e.getMessage();
             }
-            else return line;
-        } catch (IOException e) {
-            return "";
+        }
+        else {
+            if (arrayString.isEmpty()) UserConsole.changeScript(false);
+            while (script) {
+                line = arrayString.pollFirst();
+                if (line == null) {
+                    System.out.println("Непредвиденная ошибка, команды закончились");
+                    UserConsole.changeScript(false);
+                } else {
+                    if ("".equals(line)) {
+                        System.out.println("Скрипт " + pathStack.pollLast() + " закончился");
+                        if (pathStack.isEmpty()) UserConsole.changeScript(false);
+                    } else {
+                        System.out.println(line);
+                        return line;
+                    }
+                }
+            }
+            System.out.println(" <Перешли в ручной режим>");
+            return readLine();
         }
     }
 
@@ -82,38 +101,50 @@ public class UserConsole {
 
     public void scriptMode (String path, Commands commands){
         if (path == null) throw new IllegalArgumentException("Нет аргументов");
-        if (!pathSet.contains(path)) {
-            pathSet.add(path);
-            try (BufferedReader scanner = new BufferedReader(new InputStreamReader(new FileInputStream(path)) )){
-                UserConsole.changeScanner(scanner);
-                changeScript(true);
-            } catch (IOException fileNotFoundException) {
-                System.out.println("Скрипт не найден");;
-            }
-            String line;
-            while (script){
-                line = readLine();
-                if (!script) break;
-                String command[] = line.trim().split(" ");
-                String argument;
-                if (command.length>1) argument = command[1];
-                else argument = null;
-                for (int i = 0; i < command.length; i++) command[i] = command[i].trim();
-                if (commands.getCommands().containsKey(command[0])) {
-                    if ("help".equals(command[0])) {
-                        System.out.println(commands);
+        if (!pathStack.contains(path)) {
+            File file = new File(path);
+            if (file.exists() && file.canRead()) {
+                try {
+                    BufferedReader scanner = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                    ArrayDeque<String> text = new ArrayDeque<>();
+                    String line = scanner.readLine();
+                    while (line != null) {
+                        if ("".equals(line)) text.add(" ");
+                        else text.add(line);
+                        line = scanner.readLine();
                     }
-                    else try {
+                    arrayString.addFirst(""); /* Обозначает конец скрипта */
+                    while (!text.isEmpty()) arrayString.addFirst(text.pollLast());
+                    pathStack.addLast(path);
+                    changeScript(true);
+                } catch (IOException fileNotFoundException) {
+                    System.out.println("Скрипт не найден");
+                }
+                String line;
+                while (script) {
+                    System.out.print("$");
+                    line = readLine();
+                    if (!script) break;
+                    String command[] = line.trim().split(" ");
+                    String argument;
+                    if (command.length > 1) argument = command[1];
+                    else argument = null;
+                    for (int i = 0; i < command.length; i++) command[i] = command[i].trim();
+                    if (commands.getCommands().containsKey(command[0])) {
+                        if ("help".equals(command[0])) {
+                            System.out.println(commands);
+                        } else try {
                             if ("execute_script".equals(command[0])) scriptMode(argument, commands);
                             else commands.getCommands().get(command[0]).execute(argument);
-                    } catch (IllegalArgumentException illegalArgumentException) {
-                        System.out.println(illegalArgumentException.getMessage());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        } catch (IllegalArgumentException illegalArgumentException) {
+                            System.out.println(illegalArgumentException.getMessage());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-            pathSet.remove(path);
+            } else System.out.println("Не могу прочесть этот файл (возможно его не существует)");
         }
+        else System.out.println("Скрипт уже работает");
     }
 }
