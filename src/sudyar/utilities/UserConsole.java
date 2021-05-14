@@ -46,7 +46,7 @@ public class UserConsole {
         while (true){
             System.out.print("$");
             line = readLine();
-            String command[] = line.split(" ");
+            String command[] = line.trim().split(" ");
             String argument;
             if (command.length>1) argument = command[1];
             else argument = null;
@@ -94,7 +94,7 @@ public class UserConsole {
             while (script){
                 line = readLine();
                 if (!script) break;
-                String command[] = line.split(" ");
+                String command[] = line.trim().split(" ");
                 String argument;
                 if (command.length>1) argument = command[1];
                 else argument = null;
