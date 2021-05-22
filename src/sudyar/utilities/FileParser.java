@@ -162,7 +162,7 @@ public class FileParser {
                  line = br.readLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Не получается считать с файла. Плохой файл");;
         }
         return sgc;
     }
