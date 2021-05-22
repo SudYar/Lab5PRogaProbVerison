@@ -2,6 +2,9 @@ package sudyar.commands;
 
 import sudyar.data.StudyGroupCollection;
 
+/**
+ * Удаляет из коллекции все элементы, ключ которых превышает заданный
+ */
 public class RemoveGreaterKeyCommand extends AbstractCommand{
 
     private StudyGroupCollection studyGroupCollection;
@@ -11,6 +14,12 @@ public class RemoveGreaterKeyCommand extends AbstractCommand{
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * Проходит по множеству ключей и удаляет все элементы, чей ключ превышает заданный
+     * @param argument - int > 0, в виде строки. id, с которым будет сравнивать
+     * @return false
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean execute(String argument) {
         if (argument == null) throw new IllegalArgumentException("Нет аргументов, требуется id типа int");

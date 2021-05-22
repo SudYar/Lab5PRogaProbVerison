@@ -3,7 +3,7 @@ package sudyar.commands;
 import sudyar.data.StudyGroupCollection;
 
 /**
- * Очищает коллекцию
+ * Execute очищает коллекцию
  *
  *
  */

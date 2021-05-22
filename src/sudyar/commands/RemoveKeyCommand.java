@@ -2,6 +2,9 @@ package sudyar.commands;
 
 import sudyar.data.StudyGroupCollection;
 
+/**
+ * Удаляет элементс данынм id
+ */
 public class RemoveKeyCommand extends AbstractCommand{
     private StudyGroupCollection studyGroupCollection;
 
@@ -10,6 +13,12 @@ public class RemoveKeyCommand extends AbstractCommand{
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * Удаляет элемент с заданным id, если находит его
+     * @param argument - int > 0, в виде String. id
+     * @return false
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean execute(String argument) throws IllegalArgumentException {
         if (argument == null) throw new IllegalArgumentException("Нет аргументов, требуется id типа int");

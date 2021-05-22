@@ -9,13 +9,20 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Считывает информацию из файла и сохраняет в неё
+ */
 public class FileParser {
     public final String path;
     public final boolean canRead;
     public final boolean canWrite;
     private File file;
 
-
+    /**
+     * Ещё устанавливает флаги, может ли работать с файлом
+     * @param path
+     * @throws FileNotFoundException
+     */
     public FileParser(@NotNull String path) throws FileNotFoundException {
         this.path = path;
         file = new File(path);
@@ -35,7 +42,14 @@ public class FileParser {
         path = null;
     }
 
-
+    /**
+     * Локальный метод, чтобы считать только одну группу
+     * @param br
+     * @param groupNumber
+     * @return
+     * @throws NullPointerException
+     * @throws DuplicateException
+     */
     private StudyGroup parseGroup (BufferedReader br, int groupNumber) throws NullPointerException, DuplicateException {
         StudyGroup studyGroup = new StudyGroup();
         String line;
@@ -118,6 +132,10 @@ public class FileParser {
         return studyGroup;
     }
 
+    /**
+     * Считывает с файла информацию о коллекции
+     * @return StudyGroupCollection
+     */
     public StudyGroupCollection parse(){
         StudyGroupCollection sgc = new StudyGroupCollection();
         String line;
@@ -181,7 +199,6 @@ public class FileParser {
                     pw.println("\t</StudyGroup>");
                 }
                 pw.println("</StudyGroupCollection>");
-//TODO: Нужно сделать нормально вывод ошибки
                 System.out.println("Коллекция успешно сохранена!");
             }
             else System.out.println("Пустая коллекция \"сохранена\"");

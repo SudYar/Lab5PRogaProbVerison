@@ -5,6 +5,9 @@ import sudyar.commands.Commands;
 import java.io.*;
 import java.util.ArrayDeque;
 
+/**
+ * Основной класс по работе с пользователем
+ */
 public class UserConsole {
     private static BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private static boolean script = false;
@@ -14,6 +17,10 @@ public class UserConsole {
     public UserConsole() {
     }
 
+    /**
+     * Считывает строку с пользовательского ввода или из очереди команд, если это скрипт
+     * @return String
+     */
     public static String readLine () {
         String line;
         if (!script) {
@@ -51,6 +58,10 @@ public class UserConsole {
         }
     }
 
+    /**
+     * Работает в пользовательском режиме
+     * @param commands
+     */
     public void commandMode (Commands commands) {
         String line;
         script = false;
@@ -87,7 +98,11 @@ public class UserConsole {
         script = b;
     }
 
-
+    /**
+     * Работает с скриптом
+     * @param path
+     * @param commands
+     */
     public void scriptMode (String path, Commands commands){
         if (path == null) throw new IllegalArgumentException("Нет аргументов");
         if (!pathStack.contains(path)) {

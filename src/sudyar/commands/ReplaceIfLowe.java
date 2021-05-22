@@ -7,6 +7,9 @@ import sudyar.utilities.UserConsole;
 
 import java.util.Locale;
 
+/**
+ * Заменяет элемент коллекции по данному ключу, если он меньше заданного
+ */
 public class ReplaceIfLowe extends AbstractCommand {
     private StudyGroupCollection studyGroupCollection;
 
@@ -15,6 +18,12 @@ public class ReplaceIfLowe extends AbstractCommand {
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * Запрашивает у пользователя поля для новго StudyGroup с которым будет сравнивать и заменит если старый меньше
+     * @param argument - int > 0, в виде String. Нужный Id
+     * @return false
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean execute(String argument) {
         if (argument == null) throw new IllegalArgumentException("Нет аргументов, требуется id типа int");

@@ -1,5 +1,8 @@
 package sudyar.commands;
 
+/**
+ * Создан только для Commands. Реализован в UserConsole
+ */
 public class HelpCommand extends AbstractCommand{
     @Override
     public boolean execute(String argument) {

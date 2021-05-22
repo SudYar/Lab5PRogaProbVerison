@@ -2,6 +2,9 @@ package sudyar.commands;
 
 import sudyar.data.StudyGroupCollection;
 
+/**
+ * Выводит все элементы коллекции
+ */
 public class ShowCommand extends AbstractCommand {
     private StudyGroupCollection studyGroupCollection;
 
@@ -14,6 +17,11 @@ public class ShowCommand extends AbstractCommand {
         super(name, description);
     }
 
+    /**
+     * Просто использование toString класса, отвечающего за коллекцию
+     * @param argument - не используется, может быть Null
+     * @return false
+     */
     @Override
     public boolean execute(String argument) {
         System.out.println(studyGroupCollection);

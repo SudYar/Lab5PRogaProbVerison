@@ -2,14 +2,15 @@ package sudyar;
 
 import sudyar.data.*;
 import sudyar.utilities.FileParser;
-import sudyar.utilities.StudyGroupParser;
 import sudyar.commands.*;
 import sudyar.utilities.UserConsole;
 
 import java.io.FileNotFoundException;
-import java.util.Date;
 import java.util.HashSet;
 
+/**
+ * Начало программы
+ */
 public class Main {
 
     public static void main(String[] args) {

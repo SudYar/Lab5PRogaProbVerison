@@ -1,13 +1,13 @@
 package sudyar.data;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import sudyar.exception.DuplicateException;
-import sudyar.utilities.FileParser;
 import sudyar.utilities.StudyGroupParser;
 
-import java.io.IOException;
 import java.util.*;
 
+/**
+ * Отвечает за коллекцию, а также управление ей
+ */
 public class StudyGroupCollection {
     private HashMap<Integer, StudyGroup > collection = new HashMap<>();
     private HashSet<String> passportIdSet = new HashSet<>();
@@ -16,6 +16,11 @@ public class StudyGroupCollection {
     public StudyGroupCollection() {
     }
 
+    /**
+     * Добавляет новую группу, с уже готовым id
+     * @param s
+     * @throws DuplicateException
+     */
     public void add(StudyGroup s) throws DuplicateException {
         if (collection.containsKey(s.getId())) throw new DuplicateException("Повторение id");
         if ((s.getGroupAdmin() != null) && (passportIdSet.contains(s.getGroupAdmin().getPassportID())))
@@ -23,6 +28,19 @@ public class StudyGroupCollection {
         collection.put(s.getId(), s);
         if (s.getGroupAdmin() != null) passportIdSet.add(s.getGroupAdmin().getPassportID());
     }
+
+    /**
+     * Принимая поля группы, создает новую и добавляет в коллекцию
+     * @param id
+     * @param name
+     * @param x
+     * @param y
+     * @param studentCount
+     * @param formOfEducation
+     * @param semester
+     * @param groupAdmin
+     * @throws DuplicateException
+     */
     public void update(int id, String name, double x, float y, int studentCount,
                        FormOfEducation formOfEducation, Semester semester, Person groupAdmin) throws DuplicateException{
 
@@ -33,6 +51,17 @@ public class StudyGroupCollection {
         if (s.getGroupAdmin() != null) passportIdSet.add(s.getGroupAdmin().getPassportID());
     }
 
+    /**
+     * Генерирует новую группу, самостоятельно генерируя id и дату
+     * @param name
+     * @param x
+     * @param y
+     * @param studentCount
+     * @param formOfEducation
+     * @param semester
+     * @param groupAdmin
+     * @throws DuplicateException
+     */
     public void insert(String name, double x, float y, int studentCount,
                     FormOfEducation formOfEducation, Semester semester, Person groupAdmin) throws DuplicateException{
         int id;
@@ -43,6 +72,10 @@ public class StudyGroupCollection {
         add(s);
     }
 
+    /**
+     * Удаление по id
+     * @param id
+     */
     public void remove(int id){
         if (collection.containsKey(id)) {
             if (collection.get(id).getGroupAdmin() != null) passportIdSet.remove(collection.get(id).getGroupAdmin().getPassportID());

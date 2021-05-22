@@ -2,6 +2,10 @@ package sudyar.commands;
 
 import sudyar.data.StudyGroupCollection;
 
+/**
+ * Выводит общую информацию об коллекции
+ */
+
 public class InfoCommand  extends AbstractCommand{
     private StudyGroupCollection studyGroupCollection;
 
@@ -10,6 +14,10 @@ public class InfoCommand  extends AbstractCommand{
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * @param argument - не используется, может быть null
+     * @return false
+     */
     @Override
     public boolean execute(String argument) {
         System.out.println(studyGroupCollection.getInfo());

@@ -7,6 +7,9 @@ import sudyar.utilities.UserConsole;
 
 import java.util.Locale;
 
+/**
+ * Обновляет элемент коллекции с заданным id
+ */
 public class UpdateCommand extends AbstractCommand {
     private StudyGroupCollection studyGroupCollection;
 
@@ -15,7 +18,12 @@ public class UpdateCommand extends AbstractCommand {
         this.studyGroupCollection = studyGroupCollection;
     }
 
-
+    /**
+     * Спрашивает у пользователя поля новой StudyGroup и сохраняет по заданному id, если он уже есть
+     * @param argument - int > 0, в виде String. Id заданного элемента
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean execute(String argument) throws IllegalArgumentException{
         if (argument == null) throw new IllegalArgumentException("Нет аргументов, требуется id типа int");

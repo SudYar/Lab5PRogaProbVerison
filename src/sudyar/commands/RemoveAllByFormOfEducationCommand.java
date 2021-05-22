@@ -4,6 +4,10 @@ import sudyar.data.FormOfEducation;
 import sudyar.data.StudyGroupCollection;
 import sudyar.utilities.StudyGroupParser;
 
+/**
+ * Удаляет все эелменты с такой же формой обучения
+ */
+
 public class RemoveAllByFormOfEducationCommand  extends AbstractCommand{
     private StudyGroupCollection studyGroupCollection;
 
@@ -12,6 +16,12 @@ public class RemoveAllByFormOfEducationCommand  extends AbstractCommand{
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * Проходит по всей коллекции и если находит элемент с такой же формой обучения, удаляет его
+     * @param argument типа FormOfEducation
+     * @return false
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean execute(String argument) {
         if (argument == null) throw new IllegalArgumentException("Нет аргументов, возможные варианты: " + FormOfEducation.nameList());

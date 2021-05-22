@@ -3,6 +3,10 @@ package sudyar.commands;
 import sudyar.data.StudyGroupCollection;
 import sudyar.utilities.StudyGroupParser;
 
+/**
+ * Считает количество элементов коллекции с таким же studentsCount
+ */
+
 public class CountByStudentsCountCommand extends AbstractCommand{
     private StudyGroupCollection studyGroupCollection;
 
@@ -10,6 +14,13 @@ public class CountByStudentsCountCommand extends AbstractCommand{
         super("count_by_students_count", "studentsCount", "Вывести колличество элементов, значение studentsCount которых равно данному");
         this.studyGroupCollection = studyGroupCollection;
     }
+
+    /**
+     *
+     * @param argument - studentCount, в виде строки
+     * @return false
+     * @throws IllegalArgumentException
+     */
 
     @Override
     public boolean execute(String argument) {

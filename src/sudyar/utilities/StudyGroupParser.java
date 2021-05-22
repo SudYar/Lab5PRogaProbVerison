@@ -6,6 +6,9 @@ import sudyar.exception.DuplicateException;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Помогает преобразовывать строки в поля StudyGroup, если не преобразуются, выдает null
+ */
 public class StudyGroupParser {
 
 //    private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически

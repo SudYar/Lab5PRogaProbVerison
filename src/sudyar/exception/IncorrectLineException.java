@@ -1,5 +1,8 @@
 package sudyar.exception;
 
+/**
+ * Старая ошибка, не используется уже
+ */
 public class IncorrectLineException extends Exception{
     /**
      * Constructs a new exception with the specified detail message.  The

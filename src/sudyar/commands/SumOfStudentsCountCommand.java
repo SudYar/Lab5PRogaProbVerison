@@ -1,9 +1,10 @@
 package sudyar.commands;
 
-import sudyar.data.FormOfEducation;
 import sudyar.data.StudyGroupCollection;
-import sudyar.utilities.StudyGroupParser;
 
+/**
+ * Считает сумму studentsCount всех элементов
+ */
 public class SumOfStudentsCountCommand extends AbstractCommand {
     private StudyGroupCollection studyGroupCollection;
 
@@ -12,6 +13,11 @@ public class SumOfStudentsCountCommand extends AbstractCommand {
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * Проходит по всем элементам коллекции и просто складывает studentsCount каждого
+     * @param argument - не используется, может быть Null
+     * @return false
+     */
     @Override
     public boolean execute(String argument) {
         int sumOfStudentsCount = 0;

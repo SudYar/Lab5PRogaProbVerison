@@ -4,6 +4,9 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.Date;
 
+/**
+ * Задано вариантом
+ */
 public class StudyGroup implements Comparable<StudyGroup> {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой

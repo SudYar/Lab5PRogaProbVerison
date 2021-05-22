@@ -6,6 +6,9 @@ import sudyar.utilities.StudyGroupParser;
 import sudyar.utilities.UserConsole;
 
 import java.util.Locale;
+/**
+ * Добавляет элемент в коллекцию
+ */
 
 public class InsertCommand extends AbstractCommand{
     private StudyGroupCollection studyGroupCollection;
@@ -15,6 +18,11 @@ public class InsertCommand extends AbstractCommand{
         this.studyGroupCollection = studyGroupCollection;
     }
 
+    /**
+     * Запрашивает у пользователя поля нового элемента, которого в следствии добавляет в коллекцию
+     * @param argument - не используется, может быть null
+     * @return false
+     */
     @Override
     public boolean execute(String argument) {
         String line;

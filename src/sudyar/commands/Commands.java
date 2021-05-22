@@ -3,6 +3,9 @@ package sudyar.commands;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Класс, в котором хранятся все команды
+ */
 public class Commands {
     HashMap<String, Command> commands = new HashMap<>();
 
@@ -36,6 +39,10 @@ public class Commands {
         commands.put(updateCommand.getName(), updateCommand);
     }
 
+    /**
+     * Удобный конструктор, чтобы быстрее добавлять кучу объектов команд
+     * @param set
+     */
     public Commands(HashSet<Command> set){
         System.out.println("Введите help, чтобы вывести справку по доступным командам");
         for (Command command: set) {
@@ -43,43 +50,15 @@ public class Commands {
         }
     }
 
-//    public Commands() {
-//        ClearCommand clearCommand = new ClearCommand();
-//        CountByStudentsCountCommand countByStudentsCountCommand = new CountByStudentsCountCommand();
-//        ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
-//        ExitCommand exitCommand = new ExitCommand();
-//        HelpCommand helpCommand = new HelpCommand();
-//        InfoCommand infoCommand = new InfoCommand();
-//        RemoveAllByFormOfEducationCommand removeAllByFormOfEducationCommand = new RemoveAllByFormOfEducationCommand();
-//        RemoveGreaterCommand removeGreaterCommand = new RemoveGreaterCommand();
-//        RemoveKeyCommand removeKeyCommand = new RemoveKeyCommand();
-//        ReplaceIfLowe replaceIfLowe = new ReplaceIfLowe();
-//        SaveCommand saveCommand = new SaveCommand();
-//        ShowCommand showCommand = new ShowCommand();
-//        SumOfStudentsCountCommand sumOfStudentsCountCommand = new SumOfStudentsCountCommand();
-//        UpdateCommand updateCommand = new UpdateCommand();
-//
-//        commands.put(clearCommand.getName(), clearCommand);
-//        commands.put(countByStudentsCountCommand.getName(), countByStudentsCountCommand);
-//        commands.put(executeScriptCommand.getName(), executeScriptCommand);
-//        commands.put(exitCommand.getName(), exitCommand);
-//        commands.put(helpCommand.getName(), helpCommand);
-//        commands.put(infoCommand.getName(), infoCommand);
-//        commands.put(removeAllByFormOfEducationCommand.getName(), removeAllByFormOfEducationCommand);
-//        commands.put(removeGreaterCommand.getName(), removeGreaterCommand);
-//        commands.put(removeKeyCommand.getName(), removeKeyCommand);
-//        commands.put(replaceIfLowe.getName(), replaceIfLowe);
-//        commands.put(saveCommand.getName(), saveCommand);
-//        commands.put(showCommand.getName(), showCommand);
-//        commands.put(sumOfStudentsCountCommand.getName(), sumOfStudentsCountCommand);
-//        commands.put(updateCommand.getName(), updateCommand);
-//
-//    }
 
     public HashMap<String, Command> getCommands() {
         return commands;
     }
 
+    /**
+     *
+     * @return String с названиями, описанием аргументов и самих команд
+     */
     @Override
     public String toString() {
         String result = "";

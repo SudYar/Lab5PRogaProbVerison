@@ -7,6 +7,9 @@ import sudyar.utilities.UserConsole;
 
 import java.util.Locale;
 
+/**
+ * Удаляет все элементы превышающие заданный
+ */
 public class RemoveGreaterCommand extends AbstractCommand{
     private StudyGroupCollection studyGroupCollection;
 
@@ -15,7 +18,11 @@ public class RemoveGreaterCommand extends AbstractCommand{
         this.studyGroupCollection = studyGroupCollection;
     }
 
-
+    /**
+     * Запрашивает у пользователя поля для StudyGroup, с которым будет сравнивать все элементы колелкции
+     * @param argument - не используется, может быть null
+     * @return false
+     */
     @Override
     public boolean execute(String argument) {
         System.out.println("Создаем группу, с которой будем сравнивать");
